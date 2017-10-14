@@ -1,7 +1,8 @@
+import { ProductService } from './service/product.service';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -13,6 +14,7 @@ import { StarsComponent } from './stars/stars.component';
 import { ProductComponent } from './product/product.component';
 import { ChatComponent } from './chat/chat.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +27,16 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     ProductComponent,
     ChatComponent,
     ProductDetailComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

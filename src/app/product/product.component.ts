@@ -1,3 +1,4 @@
+import { Product, ProductService } from './../service/product.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,35 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  private products: Array<Product>;
+  private products: Product[];
 
   private imgUrl = 'http://placehold.it/320x150';
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
-    this.products = [
-      new Product(1, 'product1', 1.99, 3.5, '第一个商品', ['电子产品', '硬件设备']),
-      new Product(1, 'product2', 1.99, 2.5, '第一个商品', ['电子产品', '硬件设备']),
-      new Product(1, 'product3', 1.99, 1.5, '第一个商品', ['电子产品', '硬件设备']),
-      new Product(1, 'product4', 1.99, 4.5, '第一个商品', ['电子产品', '硬件设备']),
-      new Product(1, 'product5', 1.99, 4, '第一个商品', ['电子产品', '硬件设备']),
-      new Product(1, 'product6', 1.99, 3, '第一个商品', ['电子产品', '硬件设备'])
-    ];
-}
-
-}
-
-
-export class Product {
-  constructor(
-    public id: number,
-    public title: string,
-    public price: number,
-    public rating: number,
-    public desc: string,
-    public categories: Array<string>
-  ) {
-
+    this.products = this.productService.getProducts();
   }
+
 }

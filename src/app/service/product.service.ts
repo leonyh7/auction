@@ -1,7 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Http } from '@angular/http';
+import { HttpParams } from '@angular/common/http';
+import { Injectable, EventEmitter } from '@angular/core';
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProductService {
+
+  searchEvent: EventEmitter<ProductSearchParams> = new EventEmitter();
+  searchTerms = new Subject<ProductSearchParams>();
 
   private products: Product[] = [
     new Product('1', 'product1', 1.99, 3.5, '第一个商品', ['电子产品', '硬件设备']),
@@ -18,24 +27,36 @@ export class ProductService {
     new Comment('4', '2', '2017-10-04', 'sddd', 3, 'good'),
   ];
 
-  constructor() { }
+  constructor(private http: Http) { }
 
   getAllCategorie() {
     return ['电子产品', '硬件设备', '图书'];
   }
 
-  getProducts() {
-    return this.products;
+  getProducts(): Observable<Product[]> {
+    return this.http.get('/api/products').map(res => res.json());
   }
 
-  getProduct(id: string) {
-    return this.products.find((product) => product.id === id);
+  getProduct(id: string): Observable<Product> {
+    return this.http.get('/api/product/' + id).map(res => res.json());
   }
 
-  getCommentsByProductId(id: string): Comment[] {
-    return this.comments.filter((comment: Comment) => comment.productId === id);
+  getCommentsByProductId(id: string): Observable<Comment[]> {
+    return this.http.get('/api/product/' + id + '/comments').map(res => res.json());
   }
 
+  search(params: ProductSearchParams): Observable<Product[]> {
+    return this.http.get('/api/products', { params }).map(res => res.json());
+  }
+
+}
+
+export class ProductSearchParams {
+  constructor(
+    public title: string,
+    public price: number,
+    public category: string
+  ) { }
 }
 
 export class Product {

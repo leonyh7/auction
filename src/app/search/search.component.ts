@@ -2,6 +2,8 @@ import { ProductService } from './../service/product.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
+import { Subject } from 'rxjs/Subject';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -36,7 +38,8 @@ export class SearchComponent implements OnInit {
 
   onSearch() {
     if (this.formModel.valid) {
-      console.log(this.formModel.value);
+      // this.productService.searchEvent.emit(this.formModel.value);
+      this.productService.searchTerms.next(this.formModel.value);
     }
   }
 
